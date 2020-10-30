@@ -1,0 +1,17 @@
+{# 引用模板 #}
+{% extends 'base.html' %}
+
+{# 页面标题 块 #}
+{% block title %}
+    {{ article_obj.title }}
+{% endblock %}
+
+{% block nav_article_active %}active{% endblock %}
+
+{# 页面内容 块 #}
+{% block content %}
+    <h2>{{article_obj.title}}</h2>
+    <p>作者：{{ article_obj.author }}</p>
+    <p>发表日期：{{ article_obj.create_time|date:'Y-m-d H-m-s' }}</p>
+    <p>{{article_obj.content}}</p>
+{% endblock %}

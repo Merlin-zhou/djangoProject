@@ -1,0 +1,15 @@
+h3.home-content {
+    font-size: 300%;
+    position: absolute;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+}
+
+
+div.author_version {
+    position: absolute;
+    left: 50%;
+    bottom: 15%;
+    transform: translate(-50%, -50%);
+}

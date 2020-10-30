@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <div>
+        <a href="{% url 'article_list' %}">
+            <h3>Home</h3>
+        </a>
+    </div>
+    <hr>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

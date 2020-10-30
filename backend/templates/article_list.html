@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{# 页面标题 #}
+{% block title %}
+    Test Platform
+{% endblock %}
+
+{# 页面内容 #}
+{% block content %}
+    {% for article in article_list %}         {# 循环模板 #}
+        <a href="{% url 'article_detail' article.pk %}">
+            {{ article.title }}
+        </a>
+        <p>{{ article.content|truncatechars:20 }}</p>     {# 字数截取 #}
+        {% empty %}
+            <p>-- 敬请期待 --</p>
+    {% endfor %}
+    <p>一共有{{ article_list|length }}篇文章</p>
+{% endblock %}

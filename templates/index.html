@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    dns解析
+{% endblock %}
+
+{% block nav_home_active %}active{% endblock %}
+
+{% block head_extends %}
+    <title>Ajax Test</title>
+    <script src="{% static 'ajax/axios.js' %}"></script>
+    <script src="{% static 'ajax/ajax_test.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h2>
+        <span style="margin-left: 18px">DNS解析</span>
+    </h2>
+    <div>
+        <form id="form1" action="/index.html" method="get">
+            <span style="margin-left: 18px;color: #2b2b2b">
+                域名：<input type="text" id="domain" name="input" placeholder="请输入域名" maxlength="30" size="30"/>
+            </span>
+            <input id="submit" type="button" value="提交" /><br><br>
+        </form>
+    </div>
+    <div id="output">
+        <form id="form1">
+            <span style="margin-left: 8px;display: inline-block;color: #2b2b2b">
+                ip列表：<textarea id="result" name="结果" rows="5" cols="40"></textarea>
+            </span>
+        </form>
+    </div>
+{% endblock %}
+
+
+

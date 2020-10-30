@@ -1,0 +1,15 @@
+1.启动服务
+python manage.py runserver 
+
+2.初始化、更新数据库
+python manage.py makemigrations
+python manage.py migrate
+
+3.创建超级管理员
+python manage.py createsuperuser
+
+4.导入需要的库
+pip freeze > requireLib.txt
+
+5.一键安装所有库
+pip install -r  requireLib.txt
