@@ -5,4 +5,12 @@
 }
 body{
     margin-top: 62px!important;
+    background-color: #acd51a;
+    @fon}
+
+a.navbar-brand b {
+    font-family: Georgia,serif;
+    font-size: 20px;
+    color:#356DD0;
+    font-weight:bold;     /*字体加粗*/
 }

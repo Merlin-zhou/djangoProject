@@ -2,35 +2,48 @@
 {% load static %}
 
 {% block title %}
-    dns解析
+  dns解析
 {% endblock %}
 
 {% block nav_home_active %}active{% endblock %}
 
 {% block head_extends %}
-    <script src="{% static 'ajax/axios.js' %}"></script>
-    <script src="{% static 'ajax/ajax_test.js' %}"></script>
+  <script src="{% static 'ajax/axios.js' %}"></script>
+  <script src="{% static 'ajax/ajax_test.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <h2>
-        <span style="margin-left: 18px">DNS解析</span>
-    </h2>
-    <div>
-        <form id="form1" action="/dns.html" method="get">
-            <span style="margin-left: 18px;color: #2b2b2b">
-                域名：<input type="text" id="domain" name="input" placeholder="请输入域名" maxlength="30" size="30"/>
-            </span>
-            <input id="submit_dns" type="button" value="提交" /><br><br>
-        </form>
-    </div>
-    <div id="output">
-        <form id="form1">
-            <span style="margin-left: 8px;display: inline-block;color: #2b2b2b">
-                ip列表：<textarea id="result_dns" name="结果" rows="5" cols="40"></textarea>
-            </span>
-        </form>
-    </div>
+
+  <h2>
+    <span style="margin-left: 18px">DNS解析</span>
+  </h2>
+  <br>
+  <div>
+    <form id="form1" action="/dns.html" method="get">
+      {% csrf_token %}
+      <span style="margin-left: 18px;color: #2b2b2b">
+        <label for="domain">域名</label>
+        <span style="margin-left: 13px;color: #2b2b2b">
+          <input type="text" id="domain" name="input" placeholder="请输入域名" required value="" maxlength="30"
+           size="37"/>
+        </span>
+      </span>
+    </form><br>
+  </div>
+  <div id="output">
+    <form id="form1">
+      <span style="margin-left: 18px;display: inline-block;color: #2b2b2b">
+        <label for="output">IP列表</label>
+        <span style="margin-left: 0px;color: #2b2b2b">
+          <textarea id="result_dns" name="结果" rows="5" cols="40"></textarea>
+        </span>
+      </span>
+    </form><br>
+  </div>
+  <span style="margin-left: 80px;color: #2b2b2b">
+        <input id="submit_dns" type="button" value="提交" />
+    </span>
+
 {% endblock %}
 
 

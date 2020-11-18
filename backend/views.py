@@ -5,7 +5,7 @@ import requests
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
-from backend.models import Article
+from backend.models import *
 
 from djangoProject.libs import config
 from django.contrib.auth.models import User  # 导入自带用户模块
@@ -53,45 +53,61 @@ def get_ip_list(request):
     return HttpResponse(json.dumps(content), content_type="application/json")
 
 
-def cur_request(request):
+def url_request(request):
     params = request.GET
     print(params)
-    if params['header'].strip().replace("\n", "") == '' or params['header'] is None:
-        # 在很多时候我们想修改Django项目的request中属性值,该对象是一个不可修改对象, 那我们此时还想继续尝试修改其中的数值怎么办？此时你再需要对request对象修改数据值的时候就可以实现你想要的理想效果了。
-        request.GET._mutable = True
-        params['header'] = '{}'
-    if params['data'].strip().replace("\n", "") == '' or params['header'] is None:
-        request.GET._mutable = True
-        params['data'] = '{}'
-    if params['method'] == 'post':
-        print("11" + params['header'])
-        res = requests.post(url=params['url'], data=json.dumps(eval(params['data'])), headers=eval(params['header']), )
-        r = res.json()
-    elif params['method'] == 'get':
-        res = requests.get(url=params['url'], params=eval(params['data']), headers=eval(params['header']), )
-        r = res.json()
-        print(r)
-    else:
-        r = {'msg': '参数有误'}
-    return HttpResponse(json.dumps(r), content_type="application/json")
+    try:
+        if params['header'].strip().replace("\n", "") == '' or params['header'] is None:
+            # 在很多时候我们想修改Django项目的request中属性值,该对象是一个不可修改对象, 那我们此时还想继续尝试修改其中的数值怎么办？
+            # 此时你再需要对request对象修改数据值的时候就可以实现你想要的理想效果了。
+            request.GET._mutable = True
+            params['header'] = '{}'
+        if params['data'].strip().replace("\n", "") == '' or params['header'] is None:
+            request.GET._mutable = True
+            params['data'] = '{}'
+        if params['method'] == 'post':
+            print("header:" + params['header'])
+            res = requests.post(url=params['url'], data=json.dumps(eval(params['data'])), headers=eval(params['header']), )
+            r = res.json()
+        elif params['method'] == 'get':
+            res = requests.get(url=params['url'], params=eval(params['data']), headers=eval(params['header']), )
+            r = res.json()
+            print(r)
+        else:
+            r = {'msg': '参数有误'}
+        return HttpResponse(json.dumps(r), content_type="application/json")
+    except Exception as e:
+        return HttpResponse(e)
 
 
 def sql_insert(request):
     params = request.GET
+    sql = params['sql']
+    name = params['name']
     try:
-        if get_object_or_404(User, username=params['usr']):
-            print("用户存在")
-        else:
-            print("用户不存在")
+        project = ProjectSql.objects.filter(project_name=name)
+        # print(project)
+        account_data = project.values('address_ip', 'account', 'password', 'port')[0]
+        # print(account_data)
+        # HOST = account_data['address_ip']
+        # USR = account_data['account']
+        # PSD = account_data['password']
+        # PORT = account_data['port']
+        r = config.link_mysql(sql, HOST=account_data['address_ip'], USR=account_data['account'],
+                              PSD=account_data['password'], PORT=account_data['port'])
+        # print(r)
+        if r[0] == 'success':
+            # print(r[1])
+            return HttpResponse(json.dumps(r[1]))
+        elif r[0] == 'fail':
+            # print(r[1])
+            return HttpResponse(r[1])
     except Exception as e:
         print(e)
-    sql = params['sql']
-    r = config.link_mysql(sql)
-    print(r)
-    if r[0] == 'success':
-        print(r[1])
-        return HttpResponse(json.dumps(r[1]))
-    elif r[0] == 'fail':
-        print(r[1])
-        return HttpResponse(r[1])
+        return HttpResponse(e)
 
+
+def sql_project(request):
+    project = ProjectSql.objects.values('project_name')
+    content = {'project_list': list(project), 'code': 200, 'msg': 'success'}
+    return HttpResponse(json.dumps(content))

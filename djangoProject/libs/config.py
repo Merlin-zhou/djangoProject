@@ -9,14 +9,14 @@ import os
 import sys
 
 
-def link_mysql(sql):
-    base_dir = os.path.split(os.path.abspath(__file__))[0]   # 获取当前文件路径
-    con = configparser.ConfigParser()
-    con.read(base_dir + "/config.ini", encoding='utf-8')
-    HOST = con.get("AppUpdate_mysql", "host")
-    USR = con.get("AppUpdate_mysql", "usr")
-    PSD = con.get("AppUpdate_mysql", "psd")
-    PORT = eval(con.get("AppUpdate_mysql", "port"))
+def link_mysql(sql, HOST, USR, PSD, PORT=3306):
+    # base_dir = os.path.split(os.path.abspath(__file__))[0]   # 获取当前文件路径
+    # con = configparser.ConfigParser()
+    # con.read(base_dir + "/config.ini", encoding='utf-8')
+    # HOST = con.get("AppUpdate_mysql", "host")
+    # USR = con.get("AppUpdate_mysql", "usr")
+    # PSD = con.get("AppUpdate_mysql", "psd")
+    # PORT = eval(con.get("AppUpdate_mysql", "port"))
     # database = con.get("AppUpdate_mysql", "database")
     print("开始连接数据库......")
     try:

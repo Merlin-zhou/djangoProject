@@ -8,37 +8,53 @@
 {% block head_extends %}
     <script src="{% static 'ajax/axios.js' %}"></script>
     <script src="{% static 'ajax/ajax_test.js' %}"></script>
+    <script  type ="text/javascript" >
+        window.onload = function(){
+            select_box();    //调用js中的函数
+        };
+    </script>
 {% endblock %}
 
 {% block content %}
-    <h1>用户输入</h1>
-                <h2>请注意！大小写敏感！！！</h2>
-                <form action="/yaml_list/" method="post" name='yamllist'>
-                {% csrf_token %}
-                API版本：
-                <select name='apiVersion'>
-                        <option value="v1" selected>v1</option>
-                        <option value="extensions/v1beta1">beta1</option>
-                </select><br />
+    <h2>
+        <span style="margin-left: 18px">造数据</span>
+    </h2>
+    <br>
+        <form class="datalist" action="/yaml_list/" method="post" name='yamllist'>
+        {% csrf_token %}
+            <span style="margin-left: 18px;color: #2b2b2b">
+                项目：
+                <span style="margin-left: 28px;color: #2b2b2b">
+                    <select name='project_sql' id="sql_select">
+                        <option value="database_name" selected>请选择项目</option>
+                    </select>
+                </span>
+            </span><br /><br />
+            <span style="margin-left: 18px;color: #2b2b2b">
                 任务类型：
                 <select name='kind'>
                         <option value="Pod" selected>Pod</option>
                         <option value="Service">Service</option>
                         <option value="Deployment">Deployment</option>
                         <option value="ReplicationController">ReplicationController</option>
-                </select><br />
-                <p>任务名称：{{ obj.name }} <span>{{ errors.name }}</span></p>
-                <p>任务数量：{{ obj.replicas }} <span>{{ errors.replicas }}</span></p>
-                <p>APP名称：{{ obj.labels_app }} <span>{{ errors.labels_app }}</span></p>
-                <p>容器1名称：{{ obj.containers_name }} <span>{{ errors.containers_name }}</span></p>
-                <p>容器1镜像：{{ obj.containers_image }} <span>{{ errors.containers_image }}</span></p>
-                容器1开放端口1：<input type="text" placeholder="没有可以不填" name="containerPort1" /><br />
-                容器1开放端口2：<input type="text" placeholder="没有可以不填" name="containerPort2" /><br />
-                容器2名称：<input type="text" placeholder="sql" id="make_sql" name="containers_name2" /><br />
-                容器2镜像：<textarea placeholder="result" id="result_sql" name="containers_image2" rows="5" cols="30"/></textarea><br />
-                容器2开放端口1：<input type="text" placeholder="没有可以不填" name="containerPort2_1" /><br />
-                容器2开放端口2：<input type="text" placeholder="没有可以不填" name="containerPort2_2" /><br />
-                <input type="reset" value="清除所有" />
+                </select>
+            </span><br /><br />
+            <span style="margin-left: 18px;color: #2b2b2b">
+                SQL语句：
+                <span style="margin-left: 1px;color: #2b2b2b">
+                    <input type="text" placeholder="sql" id="make_sql" name="sql" size="50"/>
+                </span>
+            </span><br /><br />
+            <span style="margin-left: 18px;color: #2b2b2b">
+                结果：
+                <span style="margin-left: 28px;color: #2b2b2b">
+                    <textarea placeholder="result" id="result_sql" name="containers_image2" rows="8" cols="53"/></textarea>
+                </span>
+            </span><br /><br />
+            <span style="margin-left: 18px;color: #2b2b2b">
+                <input type="reset" value="清除所有" />&nbsp;&nbsp;&nbsp;
                 <input id="submit_data" type="button" value="生成yaml文件" />
-                </form>
+            </span>
+        </form>
+
 {% endblock %}

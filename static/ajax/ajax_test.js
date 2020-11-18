@@ -11,13 +11,17 @@ function dns_resolver() {
     const domain = document.getElementById('domain').value;
 
     if (domain == '' || domain== undefined || domain == null) {
-        // $("#domain").css('borderColor','red')
-        alert("域名不能为空");
+        document.getElementById('domain').style.border = '1px solid red'   //边框红色提示输入为空
+        // document.getElementById('domain').style.color = 'red'
+        console.log(11)
+        return
+        // alert("域名不能为空");
         // domain.value="";
         // domain.focus();
     }
     else {
-            axios.get('/ajax/dns', {
+        document.getElementById('domain').style.border=''
+        axios.get('/api/dns', {
             params: {
                 domain: domain
             }
@@ -61,22 +65,29 @@ function http_request(){
     const url = document.getElementById('url').value;
     const data = document.getElementById('re_data').value;
     const header = document.getElementById('header').value;
-    axios.get('/ajax/http-post', {
-        params: {
-            url: url,
-            method: request_method,
-            header: header,
-            data: data,
-        }
+    console.log(url)
+    if (url == '' || url== undefined || url == null) {
+        console.log(222)
+        $("#warning").alert();
+    }
+    else{
+        axios.get('/api/http-post', {
+            params: {
+                url: url,
+                method: request_method,
+                header: header,
+                data: data,
+            }
         })
-    .then(function (response) {
-        response.data = JSON.stringify(response.data, null,4)     // 将object转json显示在textarea区域, 4缩进
-        $("#result_post").val(response.data);
-        // $("#result_post").html(response.data);
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
+            .then(function (response) {
+                response.data = JSON.stringify(response.data, null,4)     // 将object转json显示在textarea区域, 4缩进
+                $("#result_post").val(response.data);
+                // $("#result_post").html(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
 }
 
 // 数据库数据插入、查询
@@ -85,20 +96,65 @@ function insert_sql(){
     console.log(111)
     const sql = document.getElementById('make_sql').value;
     console.log(typeof sql)
-    axios.get('ajax/sql_insert', {
-        params: {
-            sql: sql,
-            usr: 'ji.zhou1',
-        }
+    const project_name = document.getElementById('sql_select').value;
+    console.log(project_name)
+    if (project_name =='' || project_name == undefined || project_name == null || project_name == 'database_name'){
+        document.getElementById('sql_select').style.border = '1px solid red'   //边框红色提示输入为空
+        return
+    }
+    if (sql == '' || sql== undefined || sql == null) {
+        document.getElementById('sql_select').style.border = ''
+        document.getElementById('make_sql').style.border = '1px solid red'   //边框红色提示输入为空
+        return
+    }
+    else{
+        document.getElementById('make_sql').style.border = ''
+        document.getElementById('sql_select').style.border = ''
+        axios.get('api/sql_insert', {
+            params: {
+                sql: sql,
+                name: project_name,
+            }
         })
-    .then(function (response) {
-        response.data = JSON.stringify(response.data, null,4)     // 将object转json显示在textarea区域, 4缩进
-        $("#result_sql").val(response.data);
-        // $("#result_post").html(response.data);
+            .then(function (response) {
+                response.data = JSON.stringify(response.data, null,4)     // 将object转json显示在textarea区域, 4缩进
+                $("#result_sql").val(response.data);
+                // $("#result_post").html(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+}
+
+function select_box(){
+    axios.get('api/sql_project', {
+        params: {
+        }
     })
-    .catch(function (error) {
-        console.log(error);
-    })
+        .then(function (response) {
+            const sql_select = document.getElementById('sql_select')
+            const list = response.data['project_list']
+            // 循环将接口内容赋值给select标签,2个方法
+            // 1
+            for (let i=0;i<list.length;i++) {
+                // console.log(list[i]['project_name'])
+                sql_select.options.add(new Option(list[i]['project_name'], list[i]['project_name']))
+            }
+            // 2
+            // const frag = document.createDocumentFragment()
+            // for (let i=0;i<list.length;i++){
+            //     const option = document.createElement('option')
+            //     option.value = list[i]['project_name']
+            //     option.innerHTML = list[i]['project_name']
+            //     frag.appendChild(option)
+            //
+            // }
+            //  sql_select.appendChild(frag)
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
 }
 
 
@@ -118,6 +174,10 @@ function init() {
     $("#submit_data").click(function (){
         insert_sql()
     })
+    // $(document).ready(function() {
+    //     select_box()
+    // })
+
     // $("#output").hide();
 }
 

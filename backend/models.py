@@ -17,7 +17,7 @@ class Article(models.Model):
 
 
 class ProjectSql(models.Model):
-    project_name = models.CharField(max_length=50)
+    project_name = models.CharField(max_length=50, unique=True)     # unique=True设置唯一键
     address_ip = models.CharField(max_length=100)
     account = models.CharField(max_length=30)
     password = models.CharField(max_length=30)

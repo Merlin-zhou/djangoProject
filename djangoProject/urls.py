@@ -27,7 +27,8 @@ urlpatterns = [
     path(r'', view.home, name='home'),
 
     # 接口
-    re_path(r'ajax/dns/$', views.get_ip_list),
-    re_path(r'ajax/http-post/$', views.cur_request),
-    re_path(r'ajax/sql_insert', views.sql_insert),
+    re_path(r'api/dns', views.get_ip_list),
+    re_path(r'api/http-post', views.url_request),
+    re_path(r'api/sql_insert', views.sql_insert),
+    re_path(r'api/sql_project', views.sql_project),
 ]

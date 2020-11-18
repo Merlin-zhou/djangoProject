@@ -3,47 +3,62 @@
 
 {# 页面标题 #}
 {% block title %}
-    接口请求
+  接口请求
 {% endblock %}
 
 {% block nav_http_request_active %}active{% endblock %}
 
 {% block head_extends %}
-    <script src="{% static 'ajax/axios.js' %}"></script>
-    <script src="{% static 'ajax/ajax_test.js' %}"></script>
+  <script src="{% static 'ajax/axios.js' %}"></script>
+  <script src="{% static 'ajax/ajax_test.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <h2>
-        <span style="margin-left: 18px">接口请求</span>
-    </h2>
-    <br>
-    <div>
-        <form id="form1" action="/http_request.html" method="get">
-            <span style="margin-left: 18px;color: #2b2b2b">
-                地址：<input type="text" id="url" name="url" size="100"/><br><br>
+  <h2>
+    <span style="margin-left: 18px">接口请求</span>
+  </h2>
+  <br>
+  <div>
+    <form id="form1" action="/http_request.html" method="get">
+      {% csrf_token %}
+      <span style="margin-left: 18px;color: #2b2b2b">
+                地址：
+                <span style="margin-left: 10px;color: #2b2b2b">
+                    <input type="text" id="url" name="url" size="120"/><br><br>
+                </span>
             </span>
-            <span style="margin-left: 18px;">
+      <span style="margin-left: 18px;">
                 请求方式：<input type="radio" name="request_method" value="post" checked/>POST               {# checked表示选中，默认 #}
                         <input type="radio" name="request_method" value="get" />GET<br><br>
             </span>
-            <span style="margin-left: 18px;color: #2b2b2b">
+      <span style="margin-left: 18px;color: #2b2b2b">
                 请求头：<textarea id="header" name="请求头" rows="15" cols="76"></textarea>
             </span>
-            <span style="margin-left: 18px;color: #2b2b2b">
+      <span style="margin-left: 18px;color: #2b2b2b">
                 请求参数：<textarea id="re_data" name="参数" rows="15" cols="76"></textarea><br><br>
             </span>
-            <span style="margin-left: 400px">
+      <span style="margin-left: 400px">
                 <input id="submit_request" type="button" value="提交" /><br><br>
             </span>
 
-        </form>
-    </div>
-    <div id="output">
-        <form id="form1">
+    </form>
+  </div>
+  <div id="output">
+    <form id="form1">
             <span style="margin-left: 18px;display: inline-block;color: #2b2b2b">
-                结果：<textarea id="result_post" name="结果" rows="15" cols="140"></textarea>
+                结果：
+                <span style="margin-left: 10px;color: #2b2b2b">
+                    <textarea id="result_post" name="结果" rows="15" cols="140"></textarea>
+                </span>
             </span>
-        </form>
-    </div>
+    </form>
+  </div>
+  <div id="success" class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>成功！</strong>结果是成功的。
+  </div>
+  <div id="warning" class="alert alert-warning">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>请输入url</strong>您的网络连接有问题。
+  </div>
 {% endblock %}
