@@ -1,7 +1,11 @@
 1.启动服务
 python manage.py runserver
 python manage.py runserver 0.0.0.0:8000  允许外网访问
-访问地址：http://10.150.147.85:8000
+前台访问地址：
+http://10.150.147.85:8000
+后台地址：
+http://10.150.147.85:8000/admin
+
 
 2.初始化、更新数据库
 python manage.py makemigrations

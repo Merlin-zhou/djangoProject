@@ -137,9 +137,10 @@ function select_box(){
             const list = response.data['project_list']
             // 循环将接口内容赋值给select标签,2个方法
             // 1
-            for (let i=0;i<list.length;i++) {
-                // console.log(list[i]['project_name'])
-                sql_select.options.add(new Option(list[i]['project_name'], list[i]['project_name']))
+            for (let i = 0; i < list.length; i++) {
+                const project_name = list[i]['project_name']
+                // obj.options.add(new Option("text","value"));这个兼容IE与firefox
+                sql_select.options.add(new Option(project_name, project_name))
             }
             // 2
             // const frag = document.createDocumentFragment()
